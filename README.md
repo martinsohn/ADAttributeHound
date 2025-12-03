@@ -1,6 +1,6 @@
 # ADAttributeHound
 
-ADAttributeHound is an [OpenGraph](https://bloodhound.specterops.io/opengraph/overview) extension for [BloodHound](https://bloodhound.specterops.io) that exports Active Directory custom attributes as node properties. BloodHound ingestion will make the properties merge with existing nodes otherwise it creates new nodes.
+ADAttributeHound is an [OpenGraph](https://bloodhound.specterops.io/opengraph/overview) extension for [BloodHound](https://bloodhound.specterops.io) that exports Active Directory custom attributes as node properties. BloodHound ingestion will make the properties merge with existing nodes otherwise it creates new nodes. ADAttributeHound enables targeted attribute collection for SharpHound Enterprise, and SharpHound CE which has the flag `-CollectAllProperties`.
 
 ![](./adattributehound.png)
 
@@ -66,6 +66,10 @@ ADAttributeHound -Attribute "extensionAttribute1","department","employeeType" -O
 
 ### Examples
 
+**Example output:**
+
+See [OpenGraph_MultiAttribute_20251203042200.json](OpenGraph_MultiAttribute_20251203042200.json)
+
 **Exports extensionAttribute1 data for all AD users to current directory.:**
 ```powershell
 ADAttributeHound -Attribute "extensionAttribute1" -ObjectType User
@@ -125,7 +129,7 @@ Generates `OpenGraph_[Attribute]_[timestamp].json` containing:
 
 1. Navigate to **Administration → File Ingest** in BloodHound
 2. Upload the generated JSON file
-3. Data is immediately available via Cypher queries
+3. Data is immediately available via the Explore page and Cypher queries
 
 ## Cypher Query Examples
 
