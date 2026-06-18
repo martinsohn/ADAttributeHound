@@ -291,27 +291,26 @@ function ADAttributeHound {
                                 }
                                 
                                 # Check if this node already exists using O(1) hashtable lookup
+                                $emittedPropertyName = $attr.ToLowerInvariant()
                                 if ($nodeIndex.ContainsKey($sid)) {
                                     # Add additional attribute to existing node
-                                    $nodeIndex[$sid].properties[$attr] = $attributeValue
-                                    Write-Verbose "Updated existing node for $objType`: $samAccountName - added $attr"
+                                    $nodeIndex[$sid].properties[$emittedPropertyName] = $attributeValue
+                                    Write-Verbose "Updated existing node for $objType`: $samAccountName - added $emittedPropertyName"
                                 } else {
                                     # Create new OpenGraph node structure
                                     $node = @{
                                         id = $sid
                                         kinds = $kinds
-                                        properties = @{
-                                            objectid = $sid
-                                        }
+                                        properties = @{}
                                     }
                                     
                                     # Add attribute to properties
-                                    $node.properties[$attr] = $attributeValue
+                                    $node.properties[$emittedPropertyName] = $attributeValue
                                     
                                     # Add to both index and list
                                     $nodeIndex[$sid] = $node
                                     [void]$allNodes.Add($node)
-                                    Write-Verbose "Created new node for $objType`: $samAccountName - $attr"
+                                    Write-Verbose "Created new node for $objType`: $samAccountName - $emittedPropertyName"
                                 }
                                 
                             } catch {

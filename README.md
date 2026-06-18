@@ -68,7 +68,7 @@ ADAttributeHound -Attribute "extensionAttribute1","department","employeeType" -O
 
 **Example output:**
 
-See [OpenGraph_MultiAttribute_20251203042200.json](OpenGraph_MultiAttribute_20251203042200.json)
+See [OpenGraph_isCriticalSystemObject_20260618110604.json](OpenGraph_isCriticalSystemObject_20260618110604.json)
 
 **Exports extensionAttribute1 data for all AD users to current directory.:**
 ```powershell
@@ -100,7 +100,7 @@ ADAttributeHound -Attribute "extensionAttribute1","extensionAttribute2","departm
 Generates `OpenGraph_[Attribute]_[timestamp].json` containing:
 
 - Node properties with AD SIDs as identifiers
-- Custom attribute values attached to existing BloodHound nodes
+- Custom attribute values attached to existing BloodHound nodes with lowercase property names
 - OpenGraph-compliant metadata for ingestion
 
 **Example output structure:**
@@ -115,8 +115,7 @@ Generates `OpenGraph_[Attribute]_[timestamp].json` containing:
         "id": "S-1-5-21-...-1234",
         "kinds": ["User", "Base"],
         "properties": {
-          "objectid": "S-1-5-21-...-1234",
-          "extensionAttribute1": "VIP-Executive"
+          "extensionattribute1": "VIP-Executive"
         }
       }
     ],
@@ -130,6 +129,8 @@ Generates `OpenGraph_[Attribute]_[timestamp].json` containing:
 1. Navigate to **Administration → File Ingest** in BloodHound
 2. Upload the generated JSON file
 3. Data is immediately available via the Explore page and Cypher queries
+
+Note that deleting the `CustomAttributes` source_kind in BloodHound will delete the nodes that were enriched with new attributes. Nodes can be restored by ingesting SharpHound data again.
 
 ## Cypher Query Examples
 
@@ -160,7 +161,7 @@ LIMIT 100
 **Find objects by description pattern:**
 ```cypher
 MATCH (c:Base)
-WHERE toLower(c.extensionAttribute1) CONTAINS "password"
+WHERE toLower(c.extensionattribute1) CONTAINS "password"
 RETURN c
 ```
 
